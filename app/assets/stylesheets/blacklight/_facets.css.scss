@@ -1,11 +1,10 @@
 #facets
 {
 	font-size:93%;
-	padding:1em 0 0 1em;
-
 
   h2
   {
+    margin-top: 0;
     color:#555;
   }
 
@@ -17,6 +16,10 @@
     font-weight:400;
     margin-bottom:0;
     text-align:justify;
+  }
+
+  ul, li {
+    margin: 0;
   }
 
   li
