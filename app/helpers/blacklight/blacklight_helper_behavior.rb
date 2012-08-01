@@ -73,6 +73,10 @@ module Blacklight::BlacklightHelperBehavior
     @search_bar ||= []
   end
 
+  def search_action_url
+    catalog_index_url
+  end
+
   def extra_body_classes
     @extra_body_classes ||= ['blacklight-' + controller.controller_name, 'blacklight-' + [controller.controller_name, controller.action_name].join('-')]
   end

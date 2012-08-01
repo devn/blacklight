@@ -1,7 +1,7 @@
 <% #Search form, two versions one for desktop and one for tablet/mobile views -%>
 <div id="search-bar" class="navbar-inner visible-desktop">
   <div class="container">
-  <%= form_tag url_for(:controller=>'catalog', :action=>'index'), :method => :get, :class => 'form-inline search-form' do %>
+  <%= form_tag search_action_url, :method => :get, :class => 'form-inline search-form' do %>
     <h2 class="search"><%= label_tag(:q, t('blacklight.search.form.q')) %></h2>
     <%= text_field_tag :q, params[:q], :class => "q input-xlarge search-query" %>
     <% unless search_fields.empty? %>
@@ -15,7 +15,7 @@
 </div>
 <div id="moblet-search-bar" class="navbar-inner hidden-desktop">
   <div class="container">
-  <%= form_tag url_for(:controller=>'catalog', :action=>'index'), :method => :get, :class => 'form-inline search-form' do %>
+  <%= form_tag search_action_url, :method => :get, :class => 'form-inline search-form' do %>
     <%= text_field_tag :q, params[:q], :class => "q input-medium search-query" %>
     <% unless search_fields.empty? %>
       <%= label_tag(:search_field, " #{t('blacklight.search.form.search_field.label')} ") %>
