@@ -31,25 +31,8 @@
  <body>
   <% onload_text = "$('input#q').focus();" if params[:q].to_s.empty? and params[:f].to_s.empty? and params[:id].nil? %>
 
-<div id="header-navbar-fixed-top" class="navbar navbar-fixed-top">
-     <div class="navbar-inner">
-            <div class="container">
-              <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </a>
-              <%= link_to application_name, root_path, :class => 'brand' %>
-              <div id="logo" class="brand-logo pull-right hidden-phone"></div>
-              <div class="nav-collapse">
-                <ul class="nav">              
-                  <%= render :partial=>'/user_util_links' %>
-                </ul>
-              </div><!--/.nav-collapse -->
-        </div>
-   </div>
-   <%= search_bar.join('').html_safe  %>
-</div>
+  <%= render :partial => 'shared/header_navbar' %>
+
 
 <!-- /container -->
 <div id="background-container">
@@ -78,81 +61,6 @@
   </div>  
 </div>
 
-<footer>
-  <div class="navbar navbar-fixed-bottom">
-    <div id="footer-container-top" class="navbar-inner">
-      <div class="container">
-        <h4 id="footer-title-top" class="hidden-phone">
-           <%= link_to application_name, root_path, :class => 'brand' %>
-        </h4>
-        <div class="brand-logo pull-right visible-phone"></div>
-      </div>
-    </div>
-    <div id="footer-container" class="navbar-inner">
-      <div class="container">            
-        <div  class="row">
-          <div id="footer-row">
-            <div class="span3">
-              <div id="footer-column">
-                  <h4>Section</h4>
-                  <ul>
-                   <li><a href="#">Link</a></li>
-                   <ul>
-                       <li><a href="#">Sub-link</a></li>
-                       <li><a href="#">Sub-link</a></liv>
-                  </ul>
-                   <li><a href="#">Link</a></li>
-                   <li><a href="#">Link</a></li>
-                   <li><a href="#">Link</a></li>
-                  </ul>
-              </div>
-            </div>
-            <div class="span3 hidden-phone">
-              <div id="footer-column">
-                 <h4>Section</h4>
-                 <ul>
-                   <li><a href="#">Link</a></li>
-                   <li><a href="#">Link</a></li>
-                   <li><a href="#">Link</a></li>
-                   <li><a href="#">Link</a></li>
-                   <li><a href="#">Link</a></li>
-                  </ul>
-              </div>
-              </div>
-              <div class="span3 hidden-phone">
-                <div id="footer-column">
-                    <h4>Section hidden on phone</h4>
-                    <ul>
-                     <li><a href="#">Link</a></li>
-                     <li><a href="#">Link</a></li>
-                     <li><a href="#">Link</a></li>
-                     <li><a href="#">Link</a></li>
-                     <li><a href="#">Link</a></li>
-                    </ul>
-                </div>
-              </div>
-              <div class="span3 visible-desktop">
-                  <div id="footer-column">
-                    <h4>Section hidden on phone</h4>
-                    <ul>
-                       <li><a href="#">Link</a></li>
-                       <li><a href="#">Link</a></li>
-                       <li><a href="#">Link</a></li>
-                       <li><a href="#">Link</a></li>
-                       <li><a href="#">Link</a></li>
-                    </ul>
-                  </div>
-             </div>
-           </div>
-           <div class="row">
-              <div class="span12">
-                  <p class="pull-right">&copy; Project Blacklight</p>
-              </div>
-           </div>
-          </div>
-        </div>
-        </div>
-       </div>
-      </footer>  
-  </body>
+<%= render :partial => 'shared/footer' %>
+    </body>
 </html>

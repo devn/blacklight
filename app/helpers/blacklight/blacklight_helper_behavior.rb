@@ -68,6 +68,10 @@ module Blacklight::BlacklightHelperBehavior
     @topbar_items ||= []
   end
 
+  def render_search_bar
+    search_bar.join('').html_safe
+  end
+
   # collection of items to be rendered in the @searchbar 
   def search_bar
     @search_bar ||= []
