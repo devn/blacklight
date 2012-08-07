@@ -68,40 +68,53 @@ h2.search
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 
   .navbar-inner {
-    background-color: #000;
-    background-image: none;
     padding-top: 0.5em;
+    padding-bottom: 0.5em;
   }
 
-  .navbar .brand {
-      color: $navbarBackground;
-  }
 
   /*
     Search form is in the header...
   */
-  #search-bar {
-    background:asset_url($header_background_border,image) repeat-x scroll left top #FFFFFF;
-    margin: 0 auto;
-    max-width: 100%;
+  #desktop-search-bar {
     opacity: 1 !important;
 
-    .navbar-inner {
-        box-shadow: none;
-    }
+    .search-label {
+      font-size: 1.1em;
+      padding-left: 1.5em;
+      padding-right: 0.5em;
+      margin-top: 0.5em;
+    } 
 
-    .search-form {
-        margin: 0;
-        padding: 0.5em 0 0.5em 0;
+
+    .search-query {
+      margin-top: 0;
+      width: 16em;
+    }
+    .search-field {
+      margin-top: 1px;
+      width: 8em;
+      padding-top: 0em;
+      padding-bottom: 0;
+      margin-right: 0.25em;
     }
   }
-  #moblet-search-bar {
-    padding-top: 1em;
-    background:asset_url($header_background_border,image) repeat-x scroll left top #FFFFFF;
-    
-    form {
-      margin:0;
-    }
+}
+
+.user-util-links {
+  #folder {
+    display: inline;
+  }
+  text-align: right;
+}
+
+
+
+#moblet-search-bar {
+  margin: 1em 0 0.5em 0.5em ;
+  
+  form {
+    margin:0;
   }
 }
 

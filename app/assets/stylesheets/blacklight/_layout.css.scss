@@ -4,17 +4,17 @@
 {
   display:none
 }
-
+  
 /* Global */
 body {
-  background-color:#161616;
+  //TODO : remove?
   padding-left: 0;
   padding-right: 0;
 }
 
 /* This provides a fixed distance between the header and the main content */
 #top-spacer {
-  height: 125px;
+  height: 4.5em;
 }
 
 /* This padding provides some space around the main container for mobile views */
@@ -23,7 +23,8 @@ body {
 }
 
 #background-container {
-  background-color:$main_container_bg_color; 
+  // TODO: remove?
+  // background-color:$main_container_bg_color; 
   background-image: none;
 }
 

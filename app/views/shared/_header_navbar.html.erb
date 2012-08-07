@@ -6,14 +6,17 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </a>
+              
               <%= link_to application_name, root_path, :class => 'brand' %>
-              <div id="logo" class="brand-logo pull-right hidden-phone"></div>
-              <div class="nav-collapse">
-                <ul class="nav">              
-                  <%= render :partial=>'/user_util_links' %>
-                </ul>
+              <div class="pull-right nav-collapse">
+                <%= render :partial=>'/user_util_links' %>
               </div><!--/.nav-collapse -->
+              <%= render_search_bar  %>
+
+
         </div>
    </div>
-   <%= render_search_bar  %>
 </div>
+
+<%= render(:partial => "/catalog/mobile_search_form") unless @search_bar.empty? %>
+
