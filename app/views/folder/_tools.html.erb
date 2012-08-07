@@ -16,9 +16,11 @@
         <%= link_to t('blacklight.tools.email'), email_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @documents.collect {|doc| doc.id}), :class=>"lightboxLink btn", :id => "emailLink" %>
       </li>
       <% if has_user_authentication_provider? and current_user %>  
+      <!--   WARN: disabled bookmarks 
         <li class="bookmark">
           <%= render :partial=>'catalog/bookmark_form', :locals=>{:documents=>@documents} %>
         </li>  
+      -->      
       <% end %>
       <li>
         <%= link_to t('blacklight.tools.clear'), clear_folder_path, :method => :delete, :class => 'btn'%>
@@ -41,9 +43,11 @@
         <%= link_to t('blacklight.tools.email'), email_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @documents.collect {|doc| doc.id}), :class=>"lightboxLink btn", :id => "emailLink" %>
       </li>
       <% if has_user_authentication_provider? and current_user %>  
-        <li class="bookmark">
+      
+      <!-- WARN: disabled bookmarks <li class="bookmark">
           <%= render :partial=>'catalog/bookmark_form', :locals=>{:documents=>@documents} %>
         </li>  
+       -->
       <% end %>
       <li>
         <%= link_to t('blacklight.tools.clear'), clear_folder_path, :method => :delete, :class => 'btn'%>

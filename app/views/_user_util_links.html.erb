@@ -6,6 +6,7 @@
         <%= link_to current_user, edit_user_registration_path %>
         
         (<%= link_to t('blacklight.header_links.logout'), destroy_user_session_path %>)
+        <!-- WARN: disabled bookmarks -->
         <!-- <%= link_to t('blacklight.header_links.bookmarks'), bookmarks_path %> -->
         <br/>  
         <%= link_to t('blacklight.header_links.saved_searches'), saved_searches_path %>        
