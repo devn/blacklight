@@ -103,6 +103,31 @@ h2.search
   }
 }
 
+
+#moblet-search-bar {
+    .search-label {
+      vertical-align: middle;
+      font-weight: bold;
+      font-size: 1.1em;
+      padding-right: 0.5em;
+    } 
+
+
+    .search-query {
+      margin-top: 0;
+      width: 13em;
+    }
+    .search-field {
+      margin: 0 0.25em 0 0;
+      width: 8em;
+      padding-top: 0em;
+      padding-bottom: 0;
+    }
+    .search-button {
+      margin:0;
+    }
+}
+
 .user-util-links {
   #folder {
     display: inline;
