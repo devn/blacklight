@@ -1,11 +1,11 @@
   <div id="desktop-search-bar" class='hidden-phone'>
-    <%= form_tag search_action_url, :method => :get, :class => 'navbar-form' do %>
+    <%= form_tag search_action_url, :method => :get, :class => 'navbar-form form-inline' do %>
       <span class="search-label"><%= t('blacklight.search.form.q') %></span>
-      <% unless search_fields.empty? %>
-        <%= select_tag(:search_field, options_for_select(search_fields, h(params[:search_field])), :title => t('blacklight.search.form.search_field.title'), :class=>"search-field") %>
-      <% end %>
-      <%= text_field_tag :q, params[:q], :class => "q input-xlarge search-query" %>
       <%= search_as_hidden_fields(:omit_keys => [:q, :search_field, :qt, :page]).html_safe %> 
-      <%= submit_tag t('blacklight.search.form.submit'), :class=>'btn' %>
+      <%- search_tag = search_fields.empty? ? "" : select_tag(:search_field, options_for_select(search_fields, h(params[:search_field])), :title => t('blacklight.search.form.search_field.title'), :class=>"search-field") %>
+      <div class='input-append'>
+
+        <%= search_tag %><%= text_field_tag :q, params[:q], :class => "q input-xlarge search-query" %><btn class="btn search-button" type="button"><i class='icon-search'></i></btn>
+      </div>
     <% end %>
   </div>

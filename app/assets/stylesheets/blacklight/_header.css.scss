@@ -92,11 +92,13 @@ h2.search
       width: 16em;
     }
     .search-field {
-      margin-top: 1px;
+      margin: 0.1em 0.25em 0 0;
       width: 8em;
       padding-top: 0em;
       padding-bottom: 0;
-      margin-right: 0.25em;
+    }
+    .search-button {
+      margin:0;
     }
   }
 }

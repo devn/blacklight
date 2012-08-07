@@ -123,15 +123,8 @@
 
 
 #sortAndPerPage {
-  background-color: $well_bg_color;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  border-radius: 0 0 0 0;
-  box-shadow: 0 0 0 rgba(0, 0, 0, 0.1);
   padding: 0.5em 0.5em 0;
 
-  select {
-    width: 150px;
-  }
   label {
     margin: 0;
     font-weight: normal;
