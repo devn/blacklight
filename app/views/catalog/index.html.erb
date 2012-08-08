@@ -1,6 +1,6 @@
 <div class="row">
   <div id="sidebar" class="span3">
-  <div class="sidebar-nav well" id="sidebar-nav">
+  <div class="sidebar-nav well  hidden-phone" id="sidebar-nav">
    <%= render :partial=>'facets' %>
   </div><!--/well -->
 </div><!--/span -->
@@ -43,11 +43,18 @@
 
 	    <%= render :partial => 'document_list' %>
 
+
+
 	    <% sidebar_items << capture do %>
 	      <%= render :partial=>'facets' %>
 	    <% end %>
 
 	    <%= render 'results_pagination' %>
+
+      <div class="sidebar-nav well display-phone" id="sidebar-nav">
+       <%= render :partial=>'facets' %>
+      </div><!--/well -->
+
 
     <% end %>
 </div>
