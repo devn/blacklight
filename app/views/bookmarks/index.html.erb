@@ -1,33 +1,46 @@
+<% sidebar_items << capture do %>
+  <p><%= link_back_to_catalog %></p>
+<% end %>
 <h1><%= t('blacklight.bookmarks.title') %></h1>
 
-<%- if current_user.blank? -%>
+<% unless @documents.empty? %>
+  <%- # just adding pageEntriedInfo div to get the proper rounded corners at the top -%>
+  <div class="pageEntriesInfo"></div>
+  <%= render "catalog/sort_and_per_page" %>
+  <%= render "catalog/results_pagination" %>
   
-  <h2><%= t('blacklight.bookmarks.need_login') %></h2>
-  
-<%- elsif @bookmarks.blank? -%>
-  
-  <h2><%= t('blacklight.bookmarks.no_bookmarks') %></h2>
-  
-<%- else -%>
-
-<%= paginate @bookmarks, :theme => 'blacklight' %>
-  <div id="userBookmarks">
-    <p>
-    <%= link_to t('blacklight.bookmarks.clear.action_title'), clear_bookmarks_path, :method => :delete, :data => { :confirm => t('blacklight.bookmarks.clear.action_confirm') } %>
-    </p>
-    
-    <h2><%= t('blacklight.bookmarks.list_title') %></h2>
-    
-    <table class="zebra">
-      <% @bookmarks.each do |bm| %>
-      <tr>
-    	<td><%= link_to h(bm.title), polymorphic_path(bm.document) %></td>
-    	<td><%= button_to t('blacklight.bookmarks.delete'), {:controller => "bookmarks", :action => "destroy", :id => CGI.escape(bm.document_id)}, 
-        :method => :delete, :data => { :confirm => t('blacklight.bookmarks.remove.action_confirm') } %></td>
-      </tr>
-      <% end %>
-    </table>
-  </div>
-
+  <%= render 'tools' %>  
 <% end %>
+
+<div id="documents">  
+  <% @documents.each_with_index do |document, i| %>
+    <% # container for a single doc -%>
+    <div class="document">
+      <% # header bar for doc items in index view -%>
+      <div class="documentHeader">
+        <div class="documentFunctions">          
+          <div class="in_folder">
+            <%= render :partial=>'catalog/bookmark_control', :locals=>{:document=>document} %>
+          </div>
+        </div>  
+      
+        <h3 class="index_title"><%= i + 1 + @response.params[:start].to_i%>. <%= link_to_document document, :label => document_show_link_field, :results_view => false %></h3>
+        
+              
+      </div>
+      
+      <%= render_document_partial document, :index %>
+      <% if document.respond_to?(:export_as_openurl_ctx_kev) %>
+        <!-- 
+             // COinS, for Zotero among others. 
+             // This document_partial_name(@document) business is not quite right,
+             // but has been there for a while. 
+        -->
+        <span class="Z3988" title="<%= document.export_as_openurl_ctx_kev(document_partial_name(document)) %>"></span>
+      <% end %>
+    </div>
   
+  <% end %>
+</div>
+
+

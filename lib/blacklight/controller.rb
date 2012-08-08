@@ -21,11 +21,35 @@ module Blacklight::Controller
     base.send :layout, :choose_layout
 
     # extra head content
+    base.send :helper_method, :current_or_guest_user
+    base.send :helper_method, :guest_user
     base.send :helper_method, :extra_head_content
     base.send :helper_method, :stylesheet_links
     base.send :helper_method, :javascript_includes
     base.send :helper_method, :has_user_authentication_provider?
   end
+
+
+  # if user is logged in, return current_user, else return guest_user
+  def current_or_guest_user
+    if current_user
+      if session[:guest_user_id]
+        logging_in
+        guest_user.destroy
+        session[:guest_user_id] = nil
+      end
+      current_user
+    else
+      guest_user
+    end
+  end
+
+  # find guest_user object associated with the current session,
+  # creating one as needed
+  def guest_user
+    User.find(session[:guest_user_id].nil? ? session[:guest_user_id] = create_guest_user.id : session[:guest_user_id])
+  end
+
 
     # test for exception notifier plugin
     def error
@@ -68,6 +92,32 @@ module Blacklight::Controller
     end
     
     protected
+
+
+    # called (once) when the user logs in, insert any code your application needs
+    # to hand off from guest_user to current_user.
+    def logging_in
+      current_user_searches = current_user.searches.all.collect(&:query_params)
+      current_user_bookmarks = current_user.bookmarks.all.collect(&:document_id)
+
+      guest_user.searches.all.reject { |s| current_user_searches.include?(s.query_params)}.each do |s| 
+        s.user_id = current_user.id 
+        s.save 
+      end
+
+      guest_user.bookmarks.all.reject { |b| current_user_bookmarks.include?(b.document_id)}.each do |b| 
+        b.user_id = current_user.id 
+        b.save
+      end
+    end
+
+    def create_guest_user
+    u = User.create(:email => "guest_#{Time.now.to_i}#{rand(999)}@example.com")
+    u.save(:validate => false)
+    u
+    end
+
+
 
     # Returns a list of Searches from the ids in the user's history.
     def searches_from_history
@@ -116,7 +166,7 @@ module Blacklight::Controller
     #
     #
     def has_user_authentication_provider?
-      respond_to? :current_user
+      respond_to? :current_or_guest_user
     end           
 
     def require_user_authentication_provider

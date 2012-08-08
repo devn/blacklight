@@ -76,8 +76,9 @@ module Blacklight::BlacklightHelperBehavior
   # renders next to title. Includes just 'Folder' by default.
   def render_index_doc_actions(document, options={})   
     content = []
-    content << render(:partial => 'catalog/bookmark_control', :locals => {:document=> document}.merge(options)) if has_user_authentication_provider? and current_user
-    content << render(:partial => 'catalog/folder_control', :locals => {:document=> document}.merge(options))
+    content << render(:partial => 'catalog/bookmark_control', :locals => {:document=> document}.merge(options)) if has_user_authentication_provider? and current_or_guest_user
+    #TODO: remove
+    # content << render(:partial => 'catalog/folder_control', :locals => {:document=> document}.merge(options))
 
     content_tag("div", content.join("\n").html_safe, :class=>"documentFunctions")
   end
@@ -86,8 +87,9 @@ module Blacklight::BlacklightHelperBehavior
   # renders next to title. By default includes 'Folder' and 'Bookmarks'
   def render_show_doc_actions(document=@document, options={})
     content = []
-    content << render(:partial => 'catalog/bookmark_control', :locals => {:document=> document}.merge(options)) if has_user_authentication_provider? and current_user
-    content << render(:partial => 'catalog/folder_control', :locals => {:document=> document}.merge(options))
+    content << render(:partial => 'catalog/bookmark_control', :locals => {:document=> document}.merge(options)) if has_user_authentication_provider? and current_or_guest_user
+    #TODO: remove
+    # content << render(:partial => 'catalog/folder_control', :locals => {:document=> document}.merge(options))
 
     content_tag("div", content.join("\n").html_safe, :class=>"documentFunctions")
   end

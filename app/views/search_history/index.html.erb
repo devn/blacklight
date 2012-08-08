@@ -12,7 +12,7 @@
       <td class="query"><%= link_to_previous_search(search.query_params) %></td>
       <%- if has_user_authentication_provider? -%>
         <td class="actions">
-          <%- if current_user && search.saved? -%>
+          <%- if current_or_guest_user && search.saved? -%>
             <%= button_to t('blacklight.search_history.forget'), forget_search_path(search.id) %>
           <%- else -%>
             <%= button_to t('blacklight.search_history.save'), save_search_path(search.id), :method => :put %>
