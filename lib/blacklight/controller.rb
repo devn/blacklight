@@ -166,7 +166,7 @@ module Blacklight::Controller
     #
     #
     def has_user_authentication_provider?
-      respond_to? :current_or_guest_user
+      respond_to? :current_user
     end           
 
     def require_user_authentication_provider

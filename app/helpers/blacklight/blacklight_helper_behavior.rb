@@ -66,31 +66,26 @@ module Blacklight::BlacklightHelperBehavior
   def extra_body_classes
     @extra_body_classes ||= ['blacklight-' + controller.controller_name, 'blacklight-' + [controller.controller_name, controller.action_name].join('-')]
   end
-  
-  
+    
   def render_document_list_partial options={}
     render :partial=>'catalog/document_list'
   end
   
   # Save function area for search results 'index' view, normally
-  # renders next to title. Includes just 'Folder' by default.
+  # renders next to title. Includes just 'Bookmark' by default.
   def render_index_doc_actions(document, options={})   
     content = []
     content << render(:partial => 'catalog/bookmark_control', :locals => {:document=> document}.merge(options)) if has_user_authentication_provider? and current_or_guest_user
-    #TODO: remove
-    # content << render(:partial => 'catalog/folder_control', :locals => {:document=> document}.merge(options))
 
     content_tag("div", content.join("\n").html_safe, :class=>"documentFunctions")
   end
   
   # Save function area for item detail 'show' view, normally
-  # renders next to title. By default includes 'Folder' and 'Bookmarks'
+  # renders next to title. By default includes 'Bookmarks'
   def render_show_doc_actions(document=@document, options={})
     content = []
     content << render(:partial => 'catalog/bookmark_control', :locals => {:document=> document}.merge(options)) if has_user_authentication_provider? and current_or_guest_user
-    #TODO: remove
-    # content << render(:partial => 'catalog/folder_control', :locals => {:document=> document}.merge(options))
-
+  
     content_tag("div", content.join("\n").html_safe, :class=>"documentFunctions")
   end
   
@@ -344,12 +339,7 @@ module Blacklight::BlacklightHelperBehavior
     @template_format = old_format
     return result
   end
-  
-  # determines if the given document id is in the folder
-  def item_in_folder?(doc_id)
-    session[:folder_document_ids] && session[:folder_document_ids].include?(doc_id) ? true : false
-  end
-  
+    
   # puts together a collection of documents into one refworks export string
   def render_refworks_texts(documents)
     val = ''

@@ -1,4 +1,4 @@
-    <ul class="folderTools">
+    <ul class="bookmarkTools">
       <li class="cite">
         <%= link_to t('blacklight.tools.cite'), citation_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @documents.collect{|doc| doc.id}), {:id => 'citeLink', :name => 'citation'} %>
       </li>
@@ -11,13 +11,8 @@
       <li class="email">
         <%= link_to t('blacklight.tools.email'), email_catalog_path(:sort=>params[:sort], :per_page=>params[:per_page], :id => @documents.collect {|doc| doc.id}), :class=>"lightboxLink", :id => "emailLink" %>
       </li>
-      <% if has_user_authentication_provider? and current_or_guest_user %>  
-        <li>
-          <%= render :partial=>'catalog/bookmark_form', :locals=>{:documents=>@documents} %>
-        </li>  
-      <% end %>
       <li>
-        <%= link_to t('blacklight.tools.clear'), clear_folder_path, :method => :delete %>
+        <%= link_to t('blacklight.tools.clear'), clear_bookmarks_path, :method => :delete %>
       </li>
     </ul>
 
