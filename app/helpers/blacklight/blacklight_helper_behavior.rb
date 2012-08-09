@@ -63,10 +63,28 @@ module Blacklight::BlacklightHelperBehavior
     @sidebar_items ||= []
   end
 
+  # collection of items to be rendered in the @topbar
+  def topbar_items
+    @topbar_items ||= []
+  end
+
+  def render_search_bar
+    search_bar.join('').html_safe
+  end
+
+  # collection of items to be rendered in the @searchbar 
+  def search_bar
+    @search_bar ||= []
+  end
+
+  def search_action_url
+    catalog_index_url
+  end
+
   def extra_body_classes
     @extra_body_classes ||= ['blacklight-' + controller.controller_name, 'blacklight-' + [controller.controller_name, controller.action_name].join('-')]
   end
-    
+
   def render_document_list_partial options={}
     render :partial=>'catalog/document_list'
   end
@@ -85,7 +103,6 @@ module Blacklight::BlacklightHelperBehavior
   def render_show_doc_actions(document=@document, options={})
     content = []
     content << render(:partial => 'catalog/bookmark_control', :locals => {:document=> document}.merge(options)) if has_user_authentication_provider? and current_or_guest_user
-  
     content_tag("div", content.join("\n").html_safe, :class=>"documentFunctions")
   end
   

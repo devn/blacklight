@@ -24,7 +24,7 @@ en:
       bookmarks: 'Your Bookmarks'
       saved_searches: 'Saved Searches'
       selected_items: 'Selected Items'
-      search_history: 'Search History'
+      search_history: 'History'
 
     welcome: 'Welcome!'
     and: 'and'

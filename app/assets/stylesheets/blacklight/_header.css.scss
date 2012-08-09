@@ -4,6 +4,9 @@
 	padding:0;
 }
 
+/*
+  Site title not being used in this Boostrap instance of BL
+*/
 h1.site_title
 {
 	background:transparent asset_url($logo_image,image) no-repeat top left;
@@ -33,4 +36,107 @@ h2.search
 	display:inline;
 	margin:0;
 }
+
+
+
+/*
+ The main logo image for the Blacklight instance
+*/
+.brand-logo {
+   background:transparent asset_url($logo_image,image) no-repeat top left;
+	  height:50px;
+	  margin:0;
+	  width:120px;
+   min-height:50px;
+   min-width:120px;
+}
+
+
+/*
+  Header bar at top (Bootstrap nav-bar)
+*/
+
+/* This ensures that any tool pop-up goes infront of the header */
+.navbar-fixed-top {
+  z-index:1000;
+}
+
+
+#header-navbar-fixed-top {
+  margin: 0;
+  opacity: 1;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+
+  .navbar-inner {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+  }
+
+
+  /*
+    Search form is in the header...
+  */
+  #desktop-search-bar {
+    opacity: 1 !important;
+
+    .search-label {
+      font-size: 1.1em;
+      padding-left: 1.5em;
+      padding-right: 0.5em;
+      margin-top: 0.5em;
+    } 
+
+
+    .search-query {
+      margin-top: 0;
+      width: 16em;
+    }
+    .search-field {
+      margin: 0.1em 0.25em 0 0;
+      width: 8em;
+      padding-top: 0em;
+      padding-bottom: 0;
+    }
+    .search-button {
+      margin:0;
+    }
+  }
+}
+
+.user-util-links {
+  #folder {
+    display: inline;
+  }
+  text-align: right;
+}
+
+
+
+#moblet-search-bar {
+  margin: 1em 0 0.5em 0.5em ;
+  
+  form {
+    margin:0;
+  }
+}
+
+
+/*
+  Selected items needs special css to deal with number of selected items
+*/
+#selected-items {
+  #desktop-folder-link { 
+      float:left;
+      padding-right:5px;
+  }
+  #folder  {
+    float: right;
+    padding: 9px 10px 0 0;
+ }
+}
+ 
+
+
+
+
 
