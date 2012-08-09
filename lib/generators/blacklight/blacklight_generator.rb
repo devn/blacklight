@@ -74,9 +74,12 @@ EOF
       generate "devise", model_name.classify
       generate "devise:views"
       
-      # add the #to_s to the model.      
+      # add the #to_s and attr_accessible guest to the model.      
       insert_into_file("app/models/#{model_name}.rb", :before => /end(\n| )*$/) do 
       %{
+
+  attr_accessible :guest 
+  
   # Method added by Blacklight; Blacklight uses #to_s on your
   # user class to get a user-displayable login/identifier for
   # the account. 
