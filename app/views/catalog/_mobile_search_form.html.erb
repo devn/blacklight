@@ -1,15 +1,14 @@
 <div id="moblet-search-bar" class="visible-phone">
   <div class="container">
-  <%= form_tag search_action_url, :method => :get, :class => 'form-inline search-form' do %>
-    <%= search_as_hidden_fields(:omit_keys => [:q, :search_field, :qt, :page]).html_safe %>        
-    <div class="input-append">
-      <%= text_field_tag :q, params[:q], :class => "q input-medium search-query" %><btn class='btn'><i type='submit' class='icon-search icon'></i></btn>
-    </div>
-    <% unless search_fields.empty? %>
-      <%= label_tag(:search_field, " #{t('blacklight.search.form.search_field.label')} ") %>
-      <%= select_tag(:search_field, options_for_select(search_fields, h(params[:search_field])), :title => t('blacklight.search.form.search_field.title'), :class=>"search_field input-small") %>
+  <%= form_tag search_action_url, :method => :get, :class => 'navbar-form form-inline' do %>
+      <span class="search-label"><%= t('blacklight.search.form.q') %></span>
+      <%= search_as_hidden_fields(:omit_keys => [:q, :search_field, :qt, :page]).html_safe %> 
+      <%- search_tag = search_fields.empty? ? "" : select_tag(:search_field, options_for_select(search_fields, h(params[:search_field])), :title => t('blacklight.search.form.search_field.title'), :class=>"search-field") %>
+      <div class='input-append'>
+
+        <%= search_tag %><%= text_field_tag :q, params[:q], :class => "q input-xlarge search-query" %><btn class="btn search-button" type="submit"><i class='icon-search'></i></btn>
+      </div>
     <% end %>
-  <% end %>
   </div>
 </div>
 
