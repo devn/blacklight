@@ -15,6 +15,10 @@ en:
       next: 'Next &raquo;'
       truncate: '…'
 
+    pagination_compact:
+      previous: '&laquo; Previous'
+      next: 'Next &raquo;'
+
   blacklight:
     application_name: 'Blacklight'
 
@@ -173,10 +177,10 @@ en:
         title: 'Results navigation'
       pagination_info:
         no_items_found: 'No %{entry_name} found'
-        single_item_found: 'Displaying <b>1</b> %{entry_name}'
+        single_item_found: '<b>1</b> to <b>1</b> of <b>1</b>'
         pages:
-          one: 'Displaying <b>all %{total_num}</b> %{entry_name}'
-          other: 'Displaying %{entry_name} <b>%{start_num} - %{end_num}</b> of <b>%{total_num}</b>'
+          one: '<b>%{start_num}</b> - <b>%{end_num}</b> of <b>%{total_num}</b>'
+          other: '<b>%{start_num}</b> - <b>%{end_num}</b> of <b>%{total_num}</b>'
       entry_pagination_info:
         one: 'Item <b>1 of 1</b>'
         other: 'Item <b>%{current} of %{total}</b>'

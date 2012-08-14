@@ -1,6 +1,6 @@
 <div id="moblet-search-bar" class="visible-phone">
   <div class="container">
-  <%= form_tag search_action_url, :method => :get, :class => 'navbar-form form-inline' do %>
+  <%= form_tag search_action_url, :method => :get, :class => 'navbar-form form-search' do %>
       <span class="search-label"><%= t('blacklight.search.form.q') %></span>
       <%= search_as_hidden_fields(:omit_keys => [:q, :search_field, :qt, :page]).html_safe %> 
       <%- search_tag = search_fields.empty? ? "" : select_tag(:search_field, options_for_select(search_fields, h(params[:search_field])), :title => t('blacklight.search.form.search_field.title'), :class=>"search-field") %>

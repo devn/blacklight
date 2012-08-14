@@ -24,22 +24,12 @@
 	    <%= render :partial => 'did_you_mean' %>
 
 
-      <% topbar_items << capture do %>
-        <%= render 'constraints', :localized_params=>params %>
-      <% end %>
-
+      <%= t('blacklight.search.filters.title') %>  
+      <%= render_constraints(params) %>  
 
 	    <%= render 'sort_and_per_page' %>
 
-      <% #The pagination information is another bootstrap 'row' -%>
-      <div class="row-fluid">
-         <div class="span12">
-            <div class="pageEntriesInfo">
-              <%= render_pagination_info @response, :entry_name=>'item' %>
-              <%=link_to "(#{t('blacklight.search.start_over')})", url_for(:action=>'index'), :id=>"startOverLink" %>
-            </div>
-          </div>
-      </div>
+ 
 
 	    <%= render :partial => 'document_list' %>
 

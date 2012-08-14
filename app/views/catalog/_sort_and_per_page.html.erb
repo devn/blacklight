@@ -1,20 +1,56 @@
-<% unless @response.total < 2 %>
-  <div class="row-fluid hidden-phone">
-    <div id="sortAndPerPage" class="well">  
-
+<div class="row-fluid hidden-phone">
+  <ul class="nav nav-pills" id="sortAndPerPage">
+    <li>
+      Test
+    </li>
+    <li class="dropdown" style="">
+    
+      <a class="dropdown-toggle" data-toggle="dropdown" data-target="#">10</a>
+      <ul id="menu1" class="dropdown-menu">
+        <li>
+          <a data-target="#">10</a>
+        </li>
+        <li>
+          <a data-target="#">20</a>
+        </li>
+        <li>
+          <a data-target="#">50</a>
+        </li>
+        <li>
+          <a data-target="#">100</a>
+        </li>
+      </ul>
+    </li>
+    <li>
       <%-# kind of hacky way to get this to work on catalog and bookmarks controllers.  May be able to simple do {:action=>"index"} but I'm not sure -%>
-    	<%= form_tag params[:controller] == "bookmarks" ? bookmarks_path : url_for(:action=>'index'), :method=>:get, :class=>'per_page' do %>
+      <%= form_tag params[:controller] == "bookmarks" ? bookmarks_path : url_for(:action=>'index'), :method=>:get, :class=>'sort form-inline', :id => "sort_form" do %>
+        <%= label_tag(:sort, t('blacklight.search.sort.label', :select => select_tag(:sort, options_for_select(sort_fields, h(params[:sort])))).html_safe) %>
+
+        <%= search_as_hidden_fields(:omit_keys => [:page, :sort]) %>
+        <%= submit_tag t('blacklight.search.sort.submit') %>
+      <% end unless sort_fields.empty? %>
+    </li>   
+ 
+    <li>
+      <%-# kind of hacky way to get this to work on catalog and bookmarks controllers.  May be able to simple do {:action=>"index"} but I'm not sure -%>
+      <%= form_tag params[:controller] == "bookmarks" ? bookmarks_path : url_for(:action=>'index'), :method=>:get, :class=>'per_page form-inline' do %>
         <%= label_tag(:per_page, t('blacklight.search.per_page.label', :select => select_tag(:per_page, options_for_select(['10', '20', '50', '100'], h(params[:per_page])), :title => t('blacklight.search.per_page.title'))).html_safe) %>
         <%= search_as_hidden_fields(:omit_keys => [:page, :per_page]) %>
         <%= submit_tag t('blacklight.search.per_page.submit') %>
       <% end %>
+    </li>
+  <li>
+    <%= paginate_rsolr_response @response, :theme => 'blacklight_compact' %>
+  </li>
+  </ul>
+</div>
 
-      <%-# kind of hacky way to get this to work on catalog and bookmarks controllers.  May be able to simple do {:action=>"index"} but I'm not sure -%>
-    	<%= form_tag params[:controller] == "bookmarks" ? bookmarks_path : url_for(:action=>'index'), :method=>:get, :class=>'sort', :id => "sort_form" do %>
-        <%= label_tag(:sort, t('blacklight.search.sort.label', :select => select_tag(:sort, options_for_select(sort_fields, h(params[:sort])))).html_safe) %>
-        <%= search_as_hidden_fields(:omit_keys => [:page, :sort]) %>
-    		<%= submit_tag t('blacklight.search.sort.submit') %>
-    	<% end unless sort_fields.empty? %>
+<% #The pagination information is another bootstrap 'row' -%>
+<div class="row-fluid visible-phone">
+   <div class="span12">
+      <div class="pageEntriesInfo">
+        <%= render_pagination_info @response, :entry_name=>'item' %>
+        <%=link_to "(#{t('blacklight.search.start_over')})", url_for(:action=>'index'), :id=>"startOverLink" %>
+      </div>
     </div>
-  </div>
-<% end %>
+</div>

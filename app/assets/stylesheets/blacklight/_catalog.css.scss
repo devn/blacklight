@@ -5,7 +5,7 @@
 	border-left:1px solid $search_ui_border_color;
 	border-right:1px solid $search_ui_border_color;
 	margin-bottom:1.5em;
-	padding:1em 0.66em 0 1em;
+	padding:1em 0 0 0em;
 
   .label
   {
@@ -95,9 +95,7 @@
    }
 }
 
-#sidebar-nav {
-  margin-top: 1em;
-}
+
 #search
 {
   @include border-radius(4px 4px 0 0);
@@ -132,11 +130,18 @@
 
 
 #sortAndPerPage {
-  padding: 0.5em 0.5em 0;
 
-  label {
-    margin: 0;
-    font-weight: normal;
+
+  .sort {
+    select {
+      width: 8em;
+    }
+  }
+
+  .per_page {
+    select {
+      width: 4em;
+    }
   }
 }
 
