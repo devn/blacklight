@@ -10,6 +10,16 @@ namespace :blacklight do
     Search.delete_old_searches(args[:days_old].to_i)
   end
 
+  task :delete_old_guests, [:days_old] => [:environment] do |t, args|
+    args.with_defaults(:days_old => 30)
+
+    days_old = args[:days_old].to_i
+    raise "Days old must be a value greater than 0" unless days_old > 0
+    
+    deleted = User.where(:guest => true).where("created_at <= ?", days_old.days.ago).delete_all
+
+    puts "#{deleted} guests deleted from before #{days_old} days ago."
+  end
 end
   
 

@@ -1,7 +1,20 @@
 <!DOCTYPE html>
+<!-- Conditional comment for mobile ie7 blogs.msdn.com/b/iemobile/ -->
+<!--[if IEMobile 7 ]>    <html class="no-js iem7" lang="en"> <![endif]-->
+<!--[if (gt IEMobile 7)|!(IEMobile)]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+
 <html lang="en">
   <head>
+    <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html" charset="utf-8">
+
+    <!-- Mobile viewport optimization h5bp.com/ad -->
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+
+    <!-- Mobile IE allows us to activate ClearType technology for smoothing fonts for easy reading -->
+    <meta http-equiv="cleartype" content="on">
+
     <title><%= h(@page_title || application_name) %></title>
     <link href="<%= opensearch_catalog_path(:format => 'xml', :only_path => false) %>" title="<%= application_name%>" type="application/opensearchdescription+xml" rel="search"/>
     <%= favicon_link_tag asset_path('favicon.ico') %>
@@ -11,7 +24,6 @@
     <%= raw(render_head_content) %> 
 
     <!-- consider moving -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -42,7 +54,7 @@
   <div id="main-container" class="container">
         <div class="inner-container">
             <!-- Top bar -->
-            <div id="search-found" class="row-fluid hidden-phone">
+            <div id="search-found" class="row hidden-phone">
               <%= topbar_items.join('').html_safe %>
             </div>
             <!-- /Top bar -->

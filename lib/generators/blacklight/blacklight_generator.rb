@@ -74,9 +74,12 @@ EOF
       generate "devise", model_name.classify
       generate "devise:views"
       
-      # add the #to_s to the model.      
+      # add the #to_s and attr_accessible guest to the model.      
       insert_into_file("app/models/#{model_name}.rb", :before => /end(\n| )*$/) do 
       %{
+
+  attr_accessible :guest 
+  
   # Method added by Blacklight; Blacklight uses #to_s on your
   # user class to get a user-displayable login/identifier for
   # the account. 
@@ -110,6 +113,7 @@ EOF
     better_migration_template "create_bookmarks.rb"
     better_migration_template "remove_editable_fields_from_bookmarks.rb"
     better_migration_template "add_user_types_to_bookmarks_searches.rb"
+    better_migration_template "add_guest_flag_to_users.rb"
   end
 
 
@@ -118,7 +122,7 @@ EOF
     file_path = "app/models/#{model_name.underscore}.rb"
     if File.exists?(file_path) 
       inject_into_class file_path, model_name.classify do 
-        "# Connects this user object to Blacklights Bookmarks and Folders. " +
+        "# Connects this user object to Blacklights Bookmarks. " +
         "\n include Blacklight::User\n"        
       end
     else

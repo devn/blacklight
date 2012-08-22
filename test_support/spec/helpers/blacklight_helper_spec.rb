@@ -350,20 +350,18 @@ describe BlacklightHelper do
       @document = SolrDocument.new('title_display' => "A Fake Document", 'id'=>'8')
       helper.stub(:blacklight_config).and_return(@config)
       helper.stub(:has_user_authentication_provider?).and_return(true)
-      helper.stub(:current_user).and_return(User.new)
+      helper.stub(:current_or_guest_user).and_return(User.new)
     end
     describe "render_index_doc_actions" do
       it "should render partials" do
         response = helper.render_index_doc_actions(@document)
         response.should have_selector(".bookmark_toggle")
-        response.should have_selector(".folder_toggle")
       end
     end
     describe "render_show_doc_actions" do
       it "should render partials" do
         response = helper.render_show_doc_actions(@document)
         response.should have_selector(".bookmark_toggle")
-        response.should have_selector(".folder_toggle")
       end
     end
   end

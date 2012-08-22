@@ -1,6 +1,6 @@
 <div class="row">
   <div id="sidebar" class="span3">
-  <div class="sidebar-nav well  hidden-phone" id="sidebar-nav">
+  <div class="sidebar-nav well hidden-phone" id="sidebar-nav">
    <%= render :partial=>'facets' %>
   </div><!--/well -->
 </div><!--/span -->
@@ -23,23 +23,15 @@
 
 	    <%= render :partial => 'did_you_mean' %>
 
-
-      <% topbar_items << capture do %>
-        <%= render 'constraints', :localized_params=>params %>
-      <% end %>
-
+      <div class="constraints-row">
+        <span class="constraints-label"><%= t('blacklight.search.filters.title') %></span>
+  
+        <%= render_constraints(params) %>  
+      </div>
 
 	    <%= render 'sort_and_per_page' %>
 
-      <% #The pagination information is another bootstrap 'row' -%>
-      <div class="row-fluid">
-         <div class="span12">
-            <div class="pageEntriesInfo">
-              <%= render_pagination_info @response, :entry_name=>'item' %>
-              <%=link_to "(#{t('blacklight.search.start_over')})", url_for(:action=>'index'), :id=>"startOverLink" %>
-            </div>
-          </div>
-      </div>
+ 
 
 	    <%= render :partial => 'document_list' %>
 
@@ -51,11 +43,11 @@
 
 	    <%= render 'results_pagination' %>
 
-      <div class="sidebar-nav well display-phone" id="sidebar-nav">
-       <%= render :partial=>'facets' %>
-      </div><!--/well -->
-
 
     <% end %>
+    <div class="well visible-phone" >
+        <%= render :partial=>'facets' %>
+    </div><!--/well -->
+
 </div>
 </div>

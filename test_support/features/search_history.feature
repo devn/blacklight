@@ -48,12 +48,12 @@ Feature: Search History Page
     And I should be on the search history page
     And I should see a "forget" button
 
-  Scenario: Saving a Search when not logged in
-    Given I have done a search with term "book"
-    And I am on the search history page
-    Then I should see a "save" button
-    When I press "save"
-    Then I should see "Sign in"
+  # Scenario: Saving a Search when not logged in
+  #   Given I have done a search with term "book"
+  #   And I am on the search history page
+  #   Then I should see a "save" button
+  #   When I press "save"
+  #   Then I should see "Sign in"
 
   Scenario: Un-Saving a Search when logged in
     Given I am logged in as "user1"

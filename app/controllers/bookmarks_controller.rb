@@ -5,6 +5,12 @@ class BookmarksController < ApplicationController
   include Blacklight::Configurable
   include Blacklight::SolrHelper
 
+  include Blacklight::Configurable
+  include Blacklight::SolrHelper
+
+  copy_blacklight_config_from(CatalogController)
+
+
   before_filter :require_user_authentication_provider
   before_filter :verify_user
   
@@ -13,13 +19,13 @@ class BookmarksController < ApplicationController
   # you can also send a bookmark[title] param, which will be used for simplest case
   # or fall through display of Bookmark in list. 
   def update
-    bookmark = current_user.existing_bookmark_for(params[:id])
+    bookmark = current_or_guest_user.existing_bookmark_for(params[:id])
     if bookmark
       #update existing one with new values if present
       bookmark.attributes = params[:bookmark] if params[:bookmark]
     else
       # create new one with values and document_id
-      bookmark = current_user.bookmarks.build(params[:bookmark].merge(:document_id => params[:id]))      
+      bookmark = current_or_guest_user.bookmarks.build(params[:bookmark].merge(:document_id => params[:id]))      
     end
     
     success = bookmark.save
@@ -38,7 +44,11 @@ class BookmarksController < ApplicationController
   end
 
   def index
-    @bookmarks = current_user.bookmarks.page(params[:page])
+    bookmark_ids = current_or_guest_user.bookmarks.collect { |b| b.document_id.to_s }
+  
+    @response, @documents = get_solr_response_for_field_values("id", bookmark_ids)
+    @bookmarks = current_or_guest_user.bookmarks.page(params[:page])
+
   end
 
   # For adding a single bookmark, suggest use PUT/#update to 
@@ -55,7 +65,7 @@ class BookmarksController < ApplicationController
     
     success = true
     @bookmarks.each do |key, bookmark|
-      success = false unless current_user.bookmarks.create(bookmark)
+      success = false unless current_or_guest_user.bookmarks.create(bookmark)
     end
     if @bookmarks.length > 0 && success
       flash[:notice] = I18n.t('blacklight.bookmarks.add.success', :count => @bookmarks.length)
@@ -69,9 +79,9 @@ class BookmarksController < ApplicationController
   # Beware, :id is the Solr document_id, not the actual Bookmark id.
   # idempotent, as DELETE is supposed to be. 
   def destroy
-    bookmark = current_user.existing_bookmark_for(params[:id])
+    bookmark = current_or_guest_user.existing_bookmark_for(params[:id])
     
-    success = (!bookmark) || current_user.bookmarks.delete(bookmark)
+    success = (!bookmark) || current_or_guest_user.bookmarks.delete(bookmark)
     
     unless request.xhr?
       if success
@@ -87,7 +97,7 @@ class BookmarksController < ApplicationController
   end
   
   def clear    
-    if current_user.bookmarks.clear
+    if current_or_guest_user.bookmarks.clear
       flash[:notice] = I18n.t('blacklight.bookmarks.clear.success') 
     else
       flash[:error] = I18n.t('blacklight.bookmarks.clear.failure') 
@@ -97,6 +107,6 @@ class BookmarksController < ApplicationController
   
   protected
   def verify_user
-    flash[:notice] = I18n.t('blacklight.bookmarks.need_login') and raise Blacklight::Exceptions::AccessDenied  unless current_user
+    flash[:notice] = I18n.t('blacklight.bookmarks.need_login') and raise Blacklight::Exceptions::AccessDenied  unless current_or_guest_user
   end
 end

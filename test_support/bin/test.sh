@@ -3,7 +3,7 @@
 # Create a default rails appliaction, install blacklight, and run all the tests.
 
 #If null or empty, use default value
-RAILS_VERSION=${RAILS_VERSION:-"~> 3.2"}
+RAILS_VERSION=${RAILS_VERSION:-"3.2.8.rc2"}
 JETTY_URL=${JETTY_URL:-"https://github.com/projectblacklight/blacklight-jetty/zipball/v3.5.0"}
 
 before="$(date +%s)"
