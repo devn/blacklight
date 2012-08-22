@@ -28,6 +28,9 @@ body {
   background-image: none;
 }
 
-
+/* prevent search bar space from collapsing when there's no search bar */
+.desktop-search-bar, .tablet-search-bar {
+  min-height: 1em
+}
 
 
