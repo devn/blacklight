@@ -35,5 +35,7 @@
    </div>
 </div>
 
-<%= render(:partial => "/catalog/mobile_search_form") unless @search_bar.empty? %>
+<div id="moblet-search-bar" class="visible-phone">
+<%= render_search_bar %>
+</div>
 
