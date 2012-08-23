@@ -19,6 +19,9 @@ $navbarText: #000;
 $navbarLinkColor: #000;
 $navbarLinkColorHover: #000;
 
+$btnInfoBackground: #9ad0fe;
+
+
 @import url(https://fonts.googleapis.com/css?family=Telex);
 
 
@@ -39,6 +42,7 @@ h1,h2,h3,h4,h5,h6{margin:0;font-family:'Telex',sans-serif;font-weight:bold;color
 @import "blacklight/facets";
 @import "blacklight/bookmark";
 @import "blacklight/search_history";
+@import "blacklight/search_bar";
 @import "blacklight/print";
 
 

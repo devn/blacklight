@@ -172,8 +172,8 @@ en:
         search_field:
           label: 'in'
           title: 'Targeted search options'
-        q: 'Search '
-        submit: 'search'
+        q: 'Search...'
+        submit: 'Search'
       pagination:
         title: 'Results navigation'
       pagination_info:

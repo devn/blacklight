@@ -36,7 +36,7 @@
      padding: 5px 0 0;
   }
 
-  .per_page
+  .per_page-form
   {
     padding-right:5px;
   }
@@ -150,12 +150,13 @@ li.pill-with-label {
 
 #sortAndPerPage {
   background-color: #F3F9FF;
+  margin-right: 0em;
   padding: 0.5em;
   li.per_page {
     display:none;
   }
 
-  li.sort {
+  #sort-dropdown {
     display:none;
   }
 }
