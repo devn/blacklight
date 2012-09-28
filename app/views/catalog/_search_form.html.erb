@@ -8,7 +8,7 @@
         <%= search_tag %>
 
         <%- default_search_field = (search_fields.detect { |sf| sf.last == params[:search_field] } || search_fields.first).first %>
-       <a class="search-options-dropdown pull-right btn btn-mini btn-info dropdown-toggle" data-toggle="dropdown" id="search_opt_link_top" href="#"><span><%= default_search_field%></span> <b class="caret"></b></a>
+       <a class="search-options-dropdown pull-right  dropdown-toggle" data-toggle="dropdown" id="search_opt_link_top" href="#"><span><%= default_search_field%></span> <b class="caret"></b></a>
        <ul class="dropdown-menu" aria-labelledby="search_opt_link_top" role="menu">
           <%- search_fields.each do |title, search_key| %>
             <li>
