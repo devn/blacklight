@@ -9,11 +9,11 @@
 
 <h1><%= t('blacklight.bookmarks.title') %></h1>
 
-<% unless @documents.empty? %>
-  <%- # just adding pageEntriedInfo div to get the proper rounded corners at the top -%>
-  <div class="pageEntriesInfo"></div>
-  <%= render "catalog/sort_and_per_page" %>
-  <%= render "catalog/results_pagination" %>
+<%- if current_or_guest_user.blank? -%>
+  
+  <h2><%= t('blacklight.bookmarks.need_login') %></h2>
+  
+<%- elsif @bookmarks.blank? -%>
   
   <%= render 'tools' %>  
 <% end %>

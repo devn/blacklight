@@ -1,6 +1,11 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe FacetsHelper do
+  let(:blacklight_config) { Blacklight::Configuration.new }
 
+  before(:each) do
+    helper.stub(:blacklight_config).and_return blacklight_config
+  end
+  
   describe "should_render_facet?" do
     before do
       @config = Blacklight::Configuration.new do |config|
@@ -27,14 +32,63 @@ describe FacetsHelper do
 
   describe "facet_by_field_name" do
     it "should retrieve the facet from the response given a string" do
-      a = mock(:name => 'a', :items => [1,2])
+      facet_config = mock(:query => nil)
+      facet_field = mock()
+      helper.should_receive(:facet_configuration_for_field).with(anything()).and_return(facet_config)
 
       @response = mock()
-      @response.should_receive(:facet_by_field_name).with('a') { a }
+      @response.should_receive(:facet_by_field_name).with('a').and_return(facet_field)
 
-      helper.facet_by_field_name('a').should == a
+      helper.facet_by_field_name('a').should == facet_field
+    end
+
+    it "should also work for facet query fields" do
+      facet_config = mock(:query => {})
+      helper.should_receive(:facet_configuration_for_field).with('a_query_facet_field').and_return(facet_config)
+      helper.should_receive(:create_rsolr_facet_field_response_for_query_facet_field).with('a_query_facet_field', facet_config)
+
+      helper.facet_by_field_name 'a_query_facet_field'
+    end
+
+    describe "query facets" do
+      let(:facet_config) { 
+        mock(
+          :query => {
+             'a_simple_query' => { :fq => 'field:search', :label => 'A Human Readable label'},
+             'another_query' => { :fq => 'field:different_search', :label => 'Label'},
+             'without_results' => { :fq => 'field:without_results', :label => 'No results for this facet'}
+             }
+        )
+      }
+
+      before(:each) do
+        helper.should_receive(:facet_configuration_for_field).with(anything()).and_return(facet_config)
+
+        @response = mock(:facet_queries => {
+          'field:search' => 10,
+          'field:different_search' => 2,
+          'field:not_appearing_in_the_config' => 50,
+          'field:without_results' => 0
+        })
+      end
+
+      it"should convert the query facets into a mock RSolr FacetField" do
+        field = helper.facet_by_field_name('my_query_facet_field')
+        field.should be_a_kind_of RSolr::Ext::Response::Facets::FacetField
+
+        field.name.should == 'my_query_facet_field'
+        field.items.length.should == 2
+        field.items.map { |x| x.value }.should_not include 'field:not_appearing_in_the_config'
+
+        facet_item = field.items.select { |x| x.value == 'a_simple_query' }.first
+
+        facet_item.value.should == 'a_simple_query'
+        facet_item.hits.should == 10
+        facet_item.label.should == 'A Human Readable label'
+      end
     end
   end
+
 
   describe "render_facet_partials" do
     it "should try to render all provided facets " do
@@ -163,6 +217,18 @@ describe FacetsHelper do
         end        
       end
     end    
+
+    it "should replace facets for facets configured as single" do
+      helper.should_receive(:facet_configuration_for_field).with('single_value_facet_field').and_return(mock(:single => true))
+      params = { :f => { 'single_value_facet_field' => 'other_value'}}
+      helper.stub!(:params).and_return params
+
+      result_params = helper.add_facet_params('single_value_facet_field', 'my_value')
+
+
+      result_params[:f]['single_value_facet_field'].length.should == 1
+      result_params[:f]['single_value_facet_field'].first.should == 'my_value'
+    end
   end
 
   describe "add_facet_params_and_redirect" do
@@ -214,5 +280,26 @@ describe FacetsHelper do
   describe "facet_in_params?" do
 
   end
-  
+
+  describe "#facet_display_value" do
+    it "should just be the facet value for an ordinary facet" do
+      helper.stub(:facet_configuration_for_field).with('simple_field').and_return(mock(:query => nil, :date => nil))
+      helper.facet_display_value('simple_field', 'asdf').should == 'asdf'
+    end
+
+    it "should extract the configuration label for a query facet" do
+      helper.stub(:facet_configuration_for_field).with('query_facet').and_return(mock(:query => { 'query_key' => { :label => 'XYZ'}}, :date => nil))
+      helper.facet_display_value('query_facet', 'query_key').should == 'XYZ'
+    end
+
+    it "should localize the label for date-type facets" do
+      helper.stub(:facet_configuration_for_field).with('date_facet').and_return(mock('date' => true, :query => nil))
+      helper.facet_display_value('date_facet', '2012-01-01').should == 'Sun, 01 Jan 2012 00:00:00 +0000'
+    end
+
+    it "should localize the label for date-type facets with the supplied localization options" do
+      helper.stub(:facet_configuration_for_field).with('date_facet').and_return(mock('date' => { :format => :short }, :query => nil))
+      helper.facet_display_value('date_facet', '2012-01-01').should == '01 Jan 00:00'
+    end
+  end
 end

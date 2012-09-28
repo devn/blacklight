@@ -35,7 +35,6 @@ module Blacklight
         end
       end
   
-   
       def search_history
         add_routes do |options|
           match "search_history",             :to => "search_history#index",   :as => "search_history"

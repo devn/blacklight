@@ -66,6 +66,7 @@ end
 describe BlacklightHelper do
   include ERB::Util
   include BlacklightHelper
+  include Devise::TestHelpers
   def blacklight_config
     @config ||= Blacklight::Configuration.new.configure do |config| 
       config.show.html_title = "title_display"

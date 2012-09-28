@@ -43,9 +43,12 @@ module Blacklight::RenderConstraintsHelperBehavior
   end
 
   def render_filter_element(facet, values, localized_params)
+    facet_config = facet_configuration_for_field(facet)
+
     values.map do |val|
+
       render_constraint_element( facet_field_labels[facet],
-                  val, 
+                  facet_display_value(facet, val), 
                   :remove => url_for(remove_facet_params(facet, val, localized_params)),
                   :classes => ["filter", "filter-" + facet.parameterize] 
                 ) + "\n"                 					            

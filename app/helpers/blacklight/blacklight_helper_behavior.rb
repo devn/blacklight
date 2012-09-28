@@ -90,7 +90,7 @@ module Blacklight::BlacklightHelperBehavior
   end
   
   # Save function area for search results 'index' view, normally
-  # renders next to title. Includes just 'Bookmark' by default.
+  # renders next to title. 
   def render_index_doc_actions(document, options={})   
     wrapping_class = options.delete(:wrapping_class) || "documentFunctions" 
 
@@ -106,7 +106,8 @@ module Blacklight::BlacklightHelperBehavior
     wrapping_class = options.delete(:documentFunctions) || "documentFunctions" 
     content = []
     content << render(:partial => 'catalog/bookmark_control', :locals => {:document=> document}.merge(options)) if has_user_authentication_provider? and current_or_guest_user
-    content_tag("div", content.join("\n").html_safe, :class=> wrapping_class)
+
+    content_tag("div", content.join("\n").html_safe, :class=>"documentFunctions")
   end
   
   # used in the catalog/_index_partials/_default view
@@ -277,10 +278,11 @@ module Blacklight::BlacklightHelperBehavior
   
   def render_document_index_label doc, opts
     label = nil
-    label ||= doc.get(opts[:label]) if opts[:label].instance_of? Symbol
+    label ||= doc.get(opts[:label], :sep => nil) if opts[:label].instance_of? Symbol
     label ||= opts[:label].call(doc, opts) if opts[:label].instance_of? Proc
     label ||= opts[:label] if opts[:label].is_a? String
     label ||= doc.id
+    render_field_value label
   end
 
   # link_to_document(doc, :label=>'VIEW', :counter => 3)
@@ -359,7 +361,7 @@ module Blacklight::BlacklightHelperBehavior
     @template_format = old_format
     return result
   end
-    
+
   # puts together a collection of documents into one refworks export string
   def render_refworks_texts(documents)
     val = ''

@@ -28,7 +28,10 @@ module Blacklight::CatalogHelperBehavior
   # kaminari paginate, passed on through. 
   # will output HTML pagination controls. 
   def paginate_rsolr_response(response, options = {}, &block)
-    paginate paginate_params(response), options.merge(paginate_params_options(response)), &block
+    per_page = response.rows
+    per_page = 1 if per_page < 1
+    current_page = (response.start / per_page).ceil + 1
+    paginate Kaminari.paginate_array(response.docs, :total_count => response.total).page(current_page).per(per_page), options, &block
   end
 
   #

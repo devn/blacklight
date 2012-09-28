@@ -5,50 +5,17 @@ class BookmarksController < ApplicationController
   include Blacklight::Configurable
   include Blacklight::SolrHelper
 
-  include Blacklight::Configurable
-  include Blacklight::SolrHelper
-
   copy_blacklight_config_from(CatalogController)
 
 
-  before_filter :require_user_authentication_provider
   before_filter :verify_user
-  
-  # Beware, :id is the Solr document_id, not the actual Bookmark id.
-  # idempotent, as PUT is supposed to be. 
-  # you can also send a bookmark[title] param, which will be used for simplest case
-  # or fall through display of Bookmark in list. 
-  def update
-    bookmark = current_or_guest_user.existing_bookmark_for(params[:id])
-    if bookmark
-      #update existing one with new values if present
-      bookmark.attributes = params[:bookmark] if params[:bookmark]
-    else
-      # create new one with values and document_id
-      bookmark = current_or_guest_user.bookmarks.build(params[:bookmark].merge(:document_id => params[:id]))      
-    end
-    
-    success = bookmark.save
-    
-    unless request.xhr?
-      if bookmark.save
-        flash[:notice] = I18n.t('blacklight.bookmarks.add.success')
-      else
-        flash[:error] = I18n.t('blacklight.bookmarks.add.failure') 
-      end
-      redirect_to :back
-    else
-      #ajaxy request doesn't need a redirect and shouldn't have flash set
-      render :text => "", :status => (success ? "200" : "500" )
-    end    
-  end
 
   def index
-    bookmark_ids = current_or_guest_user.bookmarks.collect { |b| b.document_id.to_s }
-  
-    @response, @documents = get_solr_response_for_field_values("id", bookmark_ids)
     @bookmarks = current_or_guest_user.bookmarks.page(params[:page])
+  end
 
+  def update
+    create
   end
 
   # For adding a single bookmark, suggest use PUT/#update to 
@@ -61,19 +28,27 @@ class BookmarksController < ApplicationController
   # is simpler. 
   def create
     @bookmarks = params[:bookmarks] || []
-    @bookmarks << params[:bookmark] if params[:bookmark]
-    
-    success = true
-    @bookmarks.each do |key, bookmark|
-      success = false unless current_or_guest_user.bookmarks.create(bookmark)
+
+    if params[:bookmark]
+      params[:bookmark][:document_id] ||= params[:id]
+      @bookmarks << params[:bookmark] if params[:bookmark]
+     end
+
+    success = @bookmarks.all? do |bookmark|
+      current_or_guest_user.bookmarks.create(bookmark) unless current_or_guest_user.existing_bookmark_for(bookmark[:document_id])
     end
-    if @bookmarks.length > 0 && success
-      flash[:notice] = I18n.t('blacklight.bookmarks.add.success', :count => @bookmarks.length)
-    elsif @bookmarks.length > 0
-      flash[:error] = I18n.t('blacklight.bookmarks.add.failure', :count => @bookmarks.length)
+
+    if request.xhr?
+      render :text => "", :status => (success ? "200" : "500" )
+    else
+      if @bookmarks.length > 0 && success
+        flash[:notice] = I18n.t('blacklight.bookmarks.add.success', :count => @bookmarks.length)
+      elsif @bookmarks.length > 0
+        flash[:error] = I18n.t('blacklight.bookmarks.add.failure', :count => @bookmarks.length)
+      end
+
+      redirect_to :back
     end
-    
-    redirect_to :back
   end
   
   # Beware, :id is the Solr document_id, not the actual Bookmark id.
