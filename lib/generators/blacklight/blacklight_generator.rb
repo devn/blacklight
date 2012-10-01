@@ -172,7 +172,7 @@ EOF
   end
 
   def add_bootstrap_gem
-    gem 'bootstrap-sass', '~> 2.0.4.0'
+    gem 'bootstrap-sass', '~> 2.1.0.0'
   end 
 
 
